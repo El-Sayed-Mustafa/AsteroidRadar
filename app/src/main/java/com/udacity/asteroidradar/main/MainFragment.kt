@@ -11,6 +11,7 @@ import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainFragment : Fragment() {
 
     private val viewModel: MainViewModel by lazy {
@@ -28,7 +29,7 @@ class MainFragment : Fragment() {
 
         val asteroidAdapter = AsteroidAdapter()
 
-/*        binding.apply {
+        binding.apply {
             asteroidRecycler.apply {
                 adapter = asteroidAdapter
                 layoutManager = LinearLayoutManager(this.context)
@@ -37,7 +38,7 @@ class MainFragment : Fragment() {
             viewModel.asteroids.observe(viewLifecycleOwner){asteroids->
                 asteroidAdapter.submitList((asteroids))
             }
-        }*/
+        }
 
         return binding.root
     }
