@@ -3,27 +3,50 @@ package com.udacity.asteroidradar.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import com.udacity.asteroidradar.Constants.API_KEY
 import com.udacity.asteroidradar.api.AsteroidApi
-import com.udacity.asteroidradar.data.Asteroid
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import javax.inject.Inject
+import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
+import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-class MainViewModel (
-    api:AsteroidApi
-) : ViewModel() {
+class MainViewModel : ViewModel() {
 
-    private val asteroidLiveData = MutableLiveData<List<Asteroid>>()
-    val asteroids:LiveData<List<Asteroid>> = asteroidLiveData
+    /*  private val asteroidLiveData = MutableLiveData<List<Asteroid>>()
+      val asteroids:LiveData<List<Asteroid>> = asteroidLiveData
+
+      init {
+          viewModelScope.launch {
+              val asteroids =api.getAsteroids()
+              delay(2000)
+              asteroidLiveData.value = asteroids
+          }
+      }*/
+
+    private val _response = MutableLiveData<String>()
+
+    // The external immutable LiveData for the response String
+    val response: LiveData<String>
+        get() = _response
 
     init {
-        viewModelScope.launch {
-            val asteroids =api.getAsteroids()
-            delay(2000)
-            asteroidLiveData.value = asteroids
-        }
+            getAsteroidProperties()
+
+    }
+
+    private fun getAsteroidProperties() {
+        AsteroidApi.retrofitService.getAsteroids(API_KEY).enqueue( object: Callback<String> {
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                _response.value = "Failure: " + t.message
+            }
+
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                val asteroids= response.body()
+                val result = parseAsteroidsJsonResult(JSONObject(asteroids))
+                _response.value = result.size.toString()
+            }
+        })
     }
 
 }
