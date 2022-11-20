@@ -1,10 +1,13 @@
 package com.udacity.asteroidradar.main
 
 import android.app.Application
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.*
 import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.Constants.API_KEY
+import com.udacity.asteroidradar.Filter
 import com.udacity.asteroidradar.Picture
 import com.udacity.asteroidradar.api.AsteroidApi
 import com.udacity.asteroidradar.data.getDatabase
@@ -45,8 +48,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-
-    val list = asteroidRepo.asteroids
+    fun filter(filter: Filter) {
+        _filterAsteroid.postValue(filter)
+    }
 
 
     fun onClicked(asteroid: Asteroid) {
@@ -70,5 +74,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    private var _filterAsteroid = MutableLiveData(Filter.ALL)
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    val list = Transformations.switchMap(_filterAsteroid) {
+        when (it!!) {
+            Filter.WEEK -> asteroidRepo.weekAsteroids
+            Filter.TODAY -> asteroidRepo.todayAsteroids
+            else -> asteroidRepo.asteroids
+        }
+    }
 
 }

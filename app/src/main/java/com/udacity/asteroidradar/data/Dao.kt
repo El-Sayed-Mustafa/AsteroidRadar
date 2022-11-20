@@ -18,4 +18,11 @@ interface AsteroidDao {
     @Query("SELECT * FROM asteroids ORDER BY closeApproachDate DESC")
     fun getAsteroids(): LiveData<List<AsteroidEntity>>
 
+
+    @Query("SELECT * FROM asteroids WHERE closeApproachDate = :begin ORDER BY closeApproachDate DESC")
+    fun getAsteroidsToday(begin: String): LiveData<List<AsteroidEntity>>
+
+    @Query("SELECT * FROM asteroids WHERE closeApproachDate BETWEEN :begin AND :finish ORDER BY closeApproachDate DESC")
+    fun getAsteroidsPeriod(begin: String, finish: String): LiveData<List<AsteroidEntity>>
+
 }

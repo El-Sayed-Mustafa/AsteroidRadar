@@ -1,6 +1,6 @@
 package com.udacity.asteroidradar
 
-enum class FilterAsteroid {
+enum class Filter {
     TODAY,
     WEEK,
     ALL
