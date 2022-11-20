@@ -1,9 +1,12 @@
 package com.udacity.asteroidradar.main
 
 import android.app.Application
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.*
 import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.Constants.API_KEY
+import com.udacity.asteroidradar.FilterAsteroid
 import com.udacity.asteroidradar.api.AsteroidApi
 import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
 import com.udacity.asteroidradar.data.getDatabase
@@ -29,22 +32,19 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val asteroidRepository = AsteroidRepo(db)
 
     init {
-            getAsteroidProperties()
-
         viewModelScope.launch {
             asteroidRepository.refreshAsteroids()
         }
     }
 
-    private fun getAsteroidProperties() {
-        viewModelScope.launch {
-            try {
-                val listResult = AsteroidApi.retrofitService.getAsteroids(API_KEY)
-                lisAsteroid = parseAsteroidsJsonResult(JSONObject(listResult))
-                _properties.value = lisAsteroid
-            } catch (e: Exception) {
-                _response.value = "Failure: ${e.message}"
-            }
+    private var _filterAsteroid = MutableLiveData(FilterAsteroid.ALL)
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    val asteroidList = Transformations.switchMap(_filterAsteroid) {
+        when (it!!) {
+            FilterAsteroid.WEEK -> asteroidRepository.weekAsteroids
+            FilterAsteroid.TODAY -> asteroidRepository.todayAsteroids
+            else -> asteroidRepository.asteroids
         }
     }
 

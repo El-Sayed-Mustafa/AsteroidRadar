@@ -2,11 +2,15 @@
 
 package com.udacity.asteroidradar.main
 
+import android.os.Build
 import android.os.Bundle
 import android.view.*
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,6 +23,7 @@ class MainFragment : Fragment() {
         ) [MainViewModel::class.java]
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val binding = FragmentMainBinding.inflate(inflater)
@@ -36,8 +41,12 @@ class MainFragment : Fragment() {
                 layoutManager = LinearLayoutManager(this.context)
             }
 
-
         }
+        viewModel.asteroidList.observe(viewLifecycleOwner, Observer<List<Asteroid>> { asteroid ->
+            asteroid.apply {
+                asteroidAdapter.submitList(this)
+            }
+        })
 
         return binding.root
     }
