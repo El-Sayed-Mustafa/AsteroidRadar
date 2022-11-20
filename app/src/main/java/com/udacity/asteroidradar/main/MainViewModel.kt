@@ -14,20 +14,7 @@ import org.json.JSONObject
 
 class MainViewModel : ViewModel() {
 
-    /*  private val asteroidLiveData = MutableLiveData<List<Asteroid>>()
-      val asteroids:LiveData<List<Asteroid>> = asteroidLiveData
-
-      init {
-          viewModelScope.launch {
-              val asteroids =api.getAsteroids()
-              delay(2000)
-              asteroidLiveData.value = asteroids
-          }
-      }*/
-
     private val _response = MutableLiveData<String>()
-
-    // The external immutable LiveData for the response String
     val response: LiveData<String>
         get() = _response
 
@@ -37,6 +24,8 @@ class MainViewModel : ViewModel() {
 
     val properties: LiveData<List<Asteroid>>
         get() = _properties
+
+
     init {
             getAsteroidProperties()
 
