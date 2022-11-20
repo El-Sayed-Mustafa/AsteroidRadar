@@ -14,7 +14,9 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainFragment : Fragment() {
 
     private val viewModel: MainViewModel by lazy {
-        ViewModelProvider(this) [MainViewModel::class.java]
+        ViewModelProvider(this,
+            MainViewModel.Factory(requireActivity().application)
+        ) [MainViewModel::class.java]
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
