@@ -48,16 +48,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    private var _filterAsteroid = MutableLiveData(FilterAsteroid.ALL)
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    val list = Transformations.switchMap(_filterAsteroid) {
-        when (it!!) {
-            FilterAsteroid.WEEK -> asteroidRepo.weekAsteroids
-            FilterAsteroid.TODAY -> asteroidRepo.todayAsteroids
-            else -> asteroidRepo.asteroids
-        }
-    }
+    val list = asteroidRepo.asteroids
+
 
     fun onClicked(asteroid: Asteroid) {
         _navigateToDetailAsteroid.value = asteroid
