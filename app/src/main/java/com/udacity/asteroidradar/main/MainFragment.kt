@@ -18,18 +18,21 @@ import com.udacity.asteroidradar.databinding.FragmentMainBinding
 class MainFragment : Fragment() {
 
     private val viewModel: MainViewModel by lazy {
-        ViewModelProvider(this,
+        ViewModelProvider(
+            this,
             MainViewModel.Factory(requireActivity().application)
-        ) [MainViewModel::class.java]
+        )[MainViewModel::class.java]
     }
 
-    private val asteroidAdapter = AsteroidAdapter(AsteroidAdapter.AsteroidListener { asteroid ->
-        viewModel.onClicked(asteroid)
-    })
+    private val asteroidAdapter =
+        AsteroidAdapter(AsteroidAdapter.AsteroidListener { asteroid ->
+            viewModel.onClicked(asteroid)
+        })
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
         val binding = FragmentMainBinding.inflate(inflater)
         binding.lifecycleOwner = this
 
@@ -45,7 +48,7 @@ class MainFragment : Fragment() {
             }
 
         }
-        viewModel.asteroidList.observe(viewLifecycleOwner, Observer<List<Asteroid>> { asteroid ->
+        viewModel.list.observe(viewLifecycleOwner, Observer<List<Asteroid>> { asteroid ->
             asteroid.apply {
                 asteroidAdapter.submitList(this)
             }
