@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -12,18 +13,25 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_margin="3dp">
 
 
         <ImageView
-            android:id="@+id/img_status"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:id="@+id/img_status_hazardous"
+            android:layout_width="62dp"
+            android:layout_height="20dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="33dp"
-            android:layout_marginEnd="43dp"
-            tools:src="@mipmap/ic_launcher" />
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="314dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="29dp"
+            android:layout_marginBottom="0dp"
+            android:contentDescription="@{asteroid.codename}"
+            app:srcCompat="@drawable/ic_status_potentially_hazardous"
+            app:statusIcon="@{asteroid.potentiallyHazardous}" />
 
         <TextView
             android:id="@+id/tv_approach_date"
@@ -34,7 +42,6 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="50dp"
             android:layout_marginEnd="74dp"
-            android:layout_toStartOf="@+id/img_status"
             android:text="@{asteroid.closeApproachDate}"
             android:textColor="#FFFFFF"
             android:textSize="20sp" />
@@ -50,7 +57,8 @@
             android:layout_marginEnd="157dp"
             android:text="@{asteroid.codename}"
             android:textColor="#FFFFFF"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
 
     </RelativeLayout>

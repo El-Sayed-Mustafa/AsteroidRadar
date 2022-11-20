@@ -9,11 +9,11 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
-import dagger.hilt.android.AndroidEntryPoint
 
 class MainFragment : Fragment() {
 
@@ -22,6 +22,10 @@ class MainFragment : Fragment() {
             MainViewModel.Factory(requireActivity().application)
         ) [MainViewModel::class.java]
     }
+
+    private val asteroidAdapter = AsteroidAdapter(AsteroidAdapter.AsteroidListener { asteroid ->
+        viewModel.onClicked(asteroid)
+    })
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -33,7 +37,6 @@ class MainFragment : Fragment() {
 
         setHasOptionsMenu(true)
 
-        val asteroidAdapter = AsteroidAdapter()
 
         binding.apply {
             asteroidRecycler.apply {
@@ -45,6 +48,14 @@ class MainFragment : Fragment() {
         viewModel.asteroidList.observe(viewLifecycleOwner, Observer<List<Asteroid>> { asteroid ->
             asteroid.apply {
                 asteroidAdapter.submitList(this)
+            }
+        })
+
+
+        viewModel.navigateToDetailAsteroid.observe(viewLifecycleOwner, Observer { asteroid ->
+            if (asteroid != null) {
+                this.findNavController().navigate(MainFragmentDirections.actionShowDetail(asteroid))
+                viewModel.navigateToDetail()
             }
         })
 

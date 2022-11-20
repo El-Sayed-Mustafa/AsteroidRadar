@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 
-class AsteroidAdapter() :
+class AsteroidAdapter(private val clickListener: AsteroidListener) :
     ListAdapter<Asteroid, AsteroidAdapter.AsteroidViewHolder>(AsteroidComparator()) {
 
     class AsteroidViewHolder(private val binding: AsteroidItemBinding) :
@@ -28,8 +28,12 @@ class AsteroidAdapter() :
     override fun onBindViewHolder(holder: AsteroidViewHolder, position: Int) {
         val currentItem = getItem(position)
 
-        if (currentItem != null)
-            holder.bind(currentItem)
+        holder.also {
+            it.itemView.setOnClickListener{
+                clickListener.onClick(currentItem)
+            }
+            it.bind(currentItem)
+        }
 
     }
 
@@ -43,5 +47,10 @@ class AsteroidAdapter() :
             oldItem == newItem
 
 
+    }
+
+
+    class AsteroidListener(val clickListener: (asteroid: Asteroid) -> Unit) {
+        fun onClick(asteroid: Asteroid) = clickListener(asteroid)
     }
 }
