@@ -1,13 +1,10 @@
 package com.udacity.asteroidradar.main
 
 import android.app.Application
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.*
 import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.Constants.API_KEY
-import com.udacity.asteroidradar.FilterAsteroid
 import com.udacity.asteroidradar.Picture
 import com.udacity.asteroidradar.api.AsteroidApi
 import com.udacity.asteroidradar.data.getDatabase
@@ -73,17 +70,5 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-
-    class Factory(private val app: Application) : ViewModelProvider.Factory {
-
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-
-            if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
-                @Suppress("UNCHECKED_CAST")
-                return MainViewModel(app) as T
-            }
-            throw IllegalArgumentException("Unable to construct ViewModel")
-        }
-    }
 
 }

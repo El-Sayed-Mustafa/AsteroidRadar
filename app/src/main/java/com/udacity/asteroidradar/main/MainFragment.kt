@@ -20,7 +20,7 @@ class MainFragment : Fragment() {
     private val viewModel: MainViewModel by lazy {
         ViewModelProvider(
             this,
-            MainViewModel.Factory(requireActivity().application)
+            RepositoryFactory(requireActivity().application)
         )[MainViewModel::class.java]
     }
 
