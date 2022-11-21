@@ -1,9 +1,22 @@
-# Purpose of this Folder
+#Project Overview
+Asteroid Radar is an app to view the asteroids detected by NASA that pass near Earth
 
-This folder should contain the scaffolded project files to get a student started on their project. This repo will be added to the Classroom for students to use, so please do not have any solutions in this folder.
+#Using 
+ -NEoWs APi
+ -RESTful 
+ -Moshi 
+ -Picasso 
+ -Room database
+ -Work Manager and constrain 
+ -MVVM
+ -Navigation
+ -Recyclerview
+ -Filtering
+ 
+#Screenshot from projec
 
-## Note: Android Kotlin Gradle Update
-Use the updated Gradle version in the `~/gradle/wrapper/gradle-wrapper.properties` file:
-```
-distributionUrl = https\://services.gradle.org/distributions/gradle-6.1.1-all.zip
-```
+Main Screen
+![Main Screen](https://user-images.githubusercontent.com/110793510/203036320-1f72b853-394c-483a-8a50-f9e9b6e087fe.jpg)
+
+Detail Screen
+![Detail Screen](https://user-images.githubusercontent.com/110793510/203036349-a80b4d61-e0ed-4bd6-837e-6766cc9c2735.jpg)
